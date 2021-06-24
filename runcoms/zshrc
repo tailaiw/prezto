@@ -11,3 +11,39 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 fi
 
 # Customize to your needs...
+
+export PATH="$PATH:$HOME/.local/bin"
+
+# software update
+alias update='sudo apt update; sudo apt -y upgrade; sudo apt -y autoremove; sudo apt -y autoclean'
+
+# create new python folder using boilerplate
+mkpythondir() {
+  mkdir "$1"
+  cd "$1"
+  cp ~/git/python-boilerplate/* ./
+  cp ~/git/python-boilerplate/.* ./
+}
+
+# If in WSL, remove all windows stuff from path, except Windows dir for explorer.exe
+# This Speeds up Tab-completion A LOT. without this pressing TAB takes ~8.5 seconds, with this
+# ~100ms. Change /mnt/\c\/ to something different if the Windows drive is mounted somewhere else...
+C_DRIVE='/mnt/c'
+if [ -d "$C_DRIVE" ]; then
+  export PATH=$(echo ${PATH} | \
+    awk -v RS=: -v ORS=: "/${C_DRIVE//\//\\/}/ {next} {print}" | sed 's/:*$//')
+  # Add C:\Windows back so you can do `explorer.exe .` to open an explorer at current directory
+  # export PATH="$PATH:$C_DRIVE/Windows/"
+  export PATH="$PATH:$C_DRIVE/Program Files/Docker/Docker/resources/bin"
+  export PATH="$PATH:$C_DRIVE/ProgramData/DockerDesktop/version-bin"
+fi
+
+# vcxsrv for gui
+export DISPLAY=`grep -oP "(?<=nameserver ).+" /etc/resolv.conf`:0.0
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /usr/bin/terraform terraform
+
+# creating the virtualenv inside your project’s directory
+export PIPENV_VENV_IN_PROJECT=1
+
+export PATH="$HOME/.poetry/bin:$PATH"
