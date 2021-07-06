@@ -19,10 +19,13 @@ alias update='sudo apt update; sudo apt -y upgrade; sudo apt -y autoremove; sudo
 
 # create new python folder using boilerplate
 mkpythondir() {
-  mkdir "$1"
-  cd "$1"
-  cp ~/git/python-boilerplate/* ./
-  cp ~/git/python-boilerplate/.* ./
+  if [ ! -d "$(pwd)/$1" ]
+  then
+    # mkdir "$1"
+    rsync -r ~/git/python-boilerplate/ "$1" --exclude=".git"
+  else
+    echo "Directory $(pwd)/$1 already exists"
+  fi
 }
 
 # If in WSL, remove all windows stuff from path, except Windows dir for explorer.exe
