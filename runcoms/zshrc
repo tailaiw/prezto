@@ -14,13 +14,12 @@ fi
 export GPG_TTY=$(tty)
 
 mkpythondir() {
-  if [ -d "$(pwd)/$1" ]
+  if [ ! -d "$(pwd)/$1" ]
   then
-    echo Directory "$(pwd)/$1" already exists
+    # mkdir "$1"
+    rsync -r ~/git/python-boilerplate/ "$1" --exclude=".git"
   else
-    mkdir "$1"
-    cp ~/python-boilerplate/* "$1"
-    cp ~/python-boilerplate/.* "$1"
+    echo "Directory $(pwd)/$1 already exists"
   fi
 }
 alias update='sudo apt update; sudo apt upgrade -y; sudo apt autoremove -y; sudo apt autoclean -y'
