@@ -11,3 +11,16 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 fi
 
 # Customize to your needs...
+export GPG_TTY=$(tty)
+
+mkpythondir() {
+  if [ -d "$(pwd)/$1" ]
+  then
+    echo Directory "$(pwd)/$1" already exists
+  else
+    mkdir "$1"
+    cp ~/python-boilerplate/* "$1"
+    cp ~/python-boilerplate/.* "$1"
+  fi
+}
+alias update='sudo apt update; sudo apt upgrade -y; sudo apt autoremove -y; sudo apt autoclean -y'
