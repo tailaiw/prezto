@@ -23,3 +23,14 @@ mkpythondir() {
   fi
 }
 alias update='sudo apt update; sudo apt upgrade -y; sudo apt autoremove -y; sudo apt autoclean -y'
+
+# pyenv
+eval "$(pyenv init -)"
+
+# Created by `pipx` on 2021-07-20 00:55:10
+export PATH="$PATH:/home/tailaiw/.local/bin"
+
+# pipx completions
+autoload -U bashcompinit
+bashcompinit
+eval "$(register-python-argcomplete pipx)"
