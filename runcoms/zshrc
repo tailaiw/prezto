@@ -16,21 +16,24 @@ export GPG_TTY=$(tty)
 mkpythondir() {
   if [ ! -d "$(pwd)/$1" ]
   then
-    # mkdir "$1"
     rsync -r ~/git/python-boilerplate/ "$1" --exclude=".git"
+    sed -i "" "s/PROJECT_NAME/$1/g" "$1/pyproject.toml"
   else
     echo "Directory $(pwd)/$1 already exists"
   fi
 }
-alias update='sudo apt update; sudo apt upgrade -y; sudo apt autoremove -y; sudo apt autoclean -y'
 
-# pyenv
+# pyenv tab completion
 eval "$(pyenv init -)"
 
-# Created by `pipx` on 2021-07-20 00:55:10
-export PATH="$PATH:/home/tailaiw/.local/bin"
+# Created by `pipx` on 2021-08-25 21:05:28
+export PATH="$PATH:/Users/tailaiw/.local/bin"
 
-# pipx completions
+# pipx tab completion
 autoload -U bashcompinit
 bashcompinit
 eval "$(register-python-argcomplete pipx)"
+
+# prezto tab completion
+autoload -U compinit
+compinit
